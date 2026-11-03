@@ -241,6 +241,7 @@ document.addEventListener('click',e=>{
   if(t.dataset.grp){grp=t.dataset.grp;return render()}
   const act=t.dataset.act;if(!act)return;
   if(act==='dl')return baixar();
+  if(act==='csv')return baixarCsv();
   if(act==='reset')return descartar();
   const c=t.closest('.card'),id=c&&c.dataset.id,m=S.matches.find(x=>x.id===id);
   if(act==='add'){
@@ -264,8 +265,20 @@ document.addEventListener('click',e=>{
 });
 
 const ADMIN=(()=>{try{if(location.hash==='#admin')localStorage.setItem('afc-admin','1');if(location.hash==='#sair')localStorage.removeItem('afc-admin');return localStorage.getItem('afc-admin')==='1'}catch(e){return location.hash==='#admin'}})();
-function adminBar(){return '<div class="hint" style="margin:0 0 10px;padding:8px 10px;border:1px dashed var(--bd);border-radius:8px">🔒 Modo administrador: as alterações ficam só neste aparelho até você publicar o arquivo dados.json no GitHub.<div class="act" style="margin-top:6px"><button class="btn" data-act="dl">⬇ Baixar dados.json</button> <button class="btn" data-act="reset">↺ Descartar rascunho</button></div></div>'}
+function adminBar(){return '<div class="hint" style="margin:0 0 10px;padding:8px 10px;border:1px dashed var(--bd);border-radius:8px">🔒 Modo administrador: as alterações ficam só neste aparelho até você publicar o arquivo dados.json no GitHub.<div class="act" style="margin-top:6px"><button class="btn" data-act="dl">⬇ Baixar dados.json</button> <button class="btn" data-act="csv">📊 Baixar planilha (Excel)</button> <button class="btn" data-act="reset">↺ Descartar rascunho</button></div></div>'}
 function baixar(){const b=new Blob([JSON.stringify({matches:S.matches},null,1)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='dados.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),2000)}
+function baixarCsv(){
+  const q=v=>'"'+String(v==null?'':v).replace(/"/g,'""')+'"';
+  const dt=d=>d?d.split('-').reverse().join('/'):'';
+  const L=[['Data','Hora','Local','Mandante','Gols mandante','Gols visitante','Visitante','Situação','Artilheiros'].map(q).join(';')];
+  [...S.matches].sort((a,b)=>((a.date||'')+(a.time||'')).localeCompare((b.date||'')+(b.time||''))).forEach(m=>{
+    const gl=(m.scorers||[]).filter(x=>x.name&&x.goals).map(x=>x.name+(x.goals>1?' ('+x.goals+')':'')).join(', ');
+    const sit=m.canc?'Cancelado':(m.hs!=null&&m.as!=null?'Jogado':'Agendado');
+    L.push([dt(m.date),m.time||'',m.local||'',m.home,m.hs==null?'':m.hs,m.as==null?'':m.as,m.away,sit,gl].map(q).join(';'));
+  });
+  const b=new Blob(['\ufeff'+L.join('\r\n')],{type:'text/csv;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='americano-fc-jogos.csv';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),2000)
+}
 async function carregar(){
   try{const r=await fetch('dados.json?v='+Date.now(),{cache:'no-store'});if(!r.ok)throw 0;const d=await r.json();if(!Array.isArray(d.matches))throw 0;return d}catch(e){return SEED}
 }
