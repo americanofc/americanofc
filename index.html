@@ -95,7 +95,12 @@ const EXT=['png','jpg','jpeg','webp','svg','gif','avif','jfif','PNG','JPG','JPEG
 const slug=n=>(n||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
 const HASEXT=/\.(png|jpe?g|webp|svg|gif|avif|jfif)$/i;
 function logoOk(i){LG[i.dataset.s]=i.getAttribute('src')}
-function logoErr(i){const s=i.dataset.s;if(i.dataset.m){LG[s]=null;i.remove();return}const k=+i.dataset.i+1;if(k<EXT.length){i.dataset.i=k;i.src='logos/'+i.dataset.b+'.'+EXT[k]}else{LG[s]=null;i.remove()}}
+function logoErr(i){const s=i.dataset.s;
+  const fb=()=>{if(i.dataset.b!==s||i.dataset.m){delete i.dataset.m;i.dataset.b=s;i.dataset.i=0;i.src='logos/'+s+'.'+EXT[0];return true}return false};
+  if(i.dataset.m){if(fb())return;LG[s]=null;i.remove();return}
+  const k=+i.dataset.i+1;
+  if(k<EXT.length){i.dataset.i=k;i.src='logos/'+i.dataset.b+'.'+EXT[k]}
+  else if(!fb()){LG[s]=null;i.remove()}}
 function logoTag(n){const s=slug(n);if(!s||LG[s]===null)return'';let src=LG[s],m='',b=s;if(!src){if(LMAP[s]){const v=LMAP[s];if(HASEXT.test(v)){src='logos/'+encodeURI(v);m=' data-m="1"'}else{b=encodeURI(v);src='logos/'+b+'.'+EXT[0]}}else src='logos/'+s+'.'+EXT[0]}return '<img class="tl" src="'+src+'" alt="" data-s="'+s+'" data-b="'+b+'" data-i="0"'+m+' onload="logoOk(this)" onerror="logoErr(this)">'}
 const tn=n=>mine(n)?'<i class="lg"></i>'+esc(n):logoTag(n)+esc(n);
 const BADGE={w:'✅ Vitória',e:'🟨 Empate',l:'❌ Derrota'};
