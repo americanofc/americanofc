@@ -18,7 +18,7 @@ html{scroll-padding-top:env(safe-area-inset-top,0px)}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
 main{max-width:720px;margin:0 auto;padding:16px}
-.hd{display:flex;align-items:center;gap:14px;background:var(--rd);color:#fff;border-radius:14px;padding:12px 16px;margin-bottom:14px;border-bottom:5px solid var(--ac)}.hd img{height:56px;width:auto}.hd h1{font-size:22px;margin:0;line-height:1.1}.hd p{margin:3px 0 0;font-size:13px;opacity:.92}.kp{display:grid;grid-template-columns:repeat(auto-fit,minmax(78px,1fr));gap:8px;margin-top:8px;text-align:center}.kp b{display:block;font-size:22px}.kp span{font-size:12px;color:var(--mu)}.kp .gf b{color:var(--ac)}.kp .gt b{color:var(--dn)}tr.me td{background:var(--ac2)}.lg{display:inline-block;width:1.7em;height:1.1em;background:var(--logo) center/contain no-repeat;vertical-align:-.15em;margin-right:6px}.card.rw{border-left:5px solid #16a34a;background-image:linear-gradient(90deg,rgba(22,163,74,.14),transparent 45%)}.card.re{border-left:5px solid #eab308;background-image:linear-gradient(90deg,rgba(234,179,8,.18),transparent 45%)}.card.rl{border-left:5px solid #dc2626;background-image:linear-gradient(90deg,rgba(220,38,38,.14),transparent 45%)}.bw,.kw{color:var(--ac)}.be,.ke{color:var(--yl)}.bl,.kl{color:var(--dn)}.kp>div{padding:8px 4px;border-radius:10px}.kp>div.kw{background:rgba(22,163,74,.14)}.kp>div.ke{background:rgba(234,179,8,.18)}.kp>div.kl{background:rgba(220,38,38,.14)}
+.hd{display:flex;align-items:center;gap:14px;background:var(--rd);color:#fff;border-radius:14px;padding:12px 16px;margin-bottom:14px;border-bottom:5px solid var(--ac)}.hd img{height:56px;width:auto}.hd h1{font-size:22px;margin:0;line-height:1.1}.hd p{margin:3px 0 0;font-size:13px;opacity:.92}.kp{display:grid;grid-template-columns:repeat(auto-fit,minmax(78px,1fr));gap:8px;margin-top:8px;text-align:center}.kp b{display:block;font-size:22px}.kp span{font-size:12px;color:var(--mu)}.kp .gf b{color:var(--ac)}.kp .gt b{color:var(--dn)}tr.me td{background:var(--ac2)}.tl{display:inline-block;width:1.7em;height:1.3em;object-fit:contain;vertical-align:-.3em;margin-right:6px}.lg{display:inline-block;width:1.7em;height:1.1em;background:var(--logo) center/contain no-repeat;vertical-align:-.15em;margin-right:6px}.card.rw{border-left:5px solid #16a34a;background-image:linear-gradient(90deg,rgba(22,163,74,.14),transparent 45%)}.card.re{border-left:5px solid #eab308;background-image:linear-gradient(90deg,rgba(234,179,8,.18),transparent 45%)}.card.rl{border-left:5px solid #dc2626;background-image:linear-gradient(90deg,rgba(220,38,38,.14),transparent 45%)}.bw,.kw{color:var(--ac)}.be,.ke{color:var(--yl)}.bl,.kl{color:var(--dn)}.kp>div{padding:8px 4px;border-radius:10px}.kp>div.kw{background:rgba(22,163,74,.14)}.kp>div.ke{background:rgba(234,179,8,.18)}.kp>div.kl{background:rgba(220,38,38,.14)}
 .tabs{display:flex;gap:6px;margin-bottom:14px}
 button,input,select{font:inherit;color:inherit}
 .tab{flex:1;padding:10px;border:1px solid var(--bd);background:var(--card);border-radius:10px;cursor:pointer}
@@ -91,11 +91,16 @@ const fdate=(d,t)=>{if(!d)return'Data a definir';const [y,mo,da]=d.split('-').ma
 const key=m=>(m.date||'9999')+(m.time||'');
 const mine=n=>/americano|^afc$/i.test((n||'').trim());
 const LOGO=document.querySelector('.hd img').src;document.documentElement.style.setProperty('--logo','url("'+LOGO+'")');
-const tn=n=>(mine(n)?'<i class="lg"></i>':'')+esc(n);
+const EXT=['png','webp','jpg','jpeg','svg'],LG={};let LMAP={};
+const slug=n=>(n||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
+function logoOk(i){LG[i.dataset.s]=i.getAttribute('src')}
+function logoErr(i){const s=i.dataset.s;if(i.dataset.m){LG[s]=null;i.remove();return}const k=+i.dataset.i+1;if(k<EXT.length){i.dataset.i=k;i.src='logos/'+s+'.'+EXT[k]}else{LG[s]=null;i.remove()}}
+function logoTag(n){const s=slug(n);if(!s||LG[s]===null)return'';let src=LG[s],m='';if(!src){if(LMAP[s]){src='logos/'+encodeURI(LMAP[s]);m=' data-m="1"'}else src='logos/'+s+'.'+EXT[0]}return '<img class="tl" src="'+src+'" alt="" data-s="'+s+'" data-i="0"'+m+' onload="logoOk(this)" onerror="logoErr(this)">'}
+const tn=n=>mine(n)?'<i class="lg"></i>'+esc(n):logoTag(n)+esc(n);
 const BADGE={w:'✅ Vitória',e:'🟨 Empate',l:'❌ Derrota'};
 function resOf(m){if(!played(m))return'';const h=mine(m.home),a=mine(m.away);if(!h&&!a)return'';const f=h?m.hs:m.as,c=h?m.as:m.hs;return f>c?'w':f<c?'l':'e'}
 function clubStats(ms){const r={j:0,v:0,e:0,d:0,gf:0,gt:0};ms.forEach(m=>{const h=mine(m.home),a=mine(m.away);if(!h&&!a)return;const f=h?m.hs:m.as,c=h?m.as:m.hs;r.j++;r.gf+=f;r.gt+=c;if(f>c)r.v++;else if(f<c)r.d++;else r.e++});return r}
-function clubLine(ms){const c=clubStats(ms);return c.j?`<div class="hint">${tn('Americano FC')}: ✅ ${c.v} vitória(s) · 🟨 ${c.e} empate(s) · ❌ ${c.d} derrota(s) · gols feitos ${c.gf} · gols tomados ${c.gt} · saldo ${c.gf-c.gt>0?'+':''}${c.gf-c.gt}</div>`:''}
+function clubLine(ms){const c=clubStats(ms);return c.j?`<div class="hint">${tn('Americano FC')}: ✅ ${c.v} vitória(s) · 🟨 ${c.e} empate(s) · ❌ ${c.d} derrota(s) · GP ${c.gf} · GC ${c.gt} · saldo ${c.gf-c.gt>0?'+':''}${c.gf-c.gt}</div>`:''}
 
 function persist(){
   if(mode==='db'&&docRef){docRef.set({matches:S.matches}).catch(()=>alert('Não foi possível salvar. Verifique se você tem permissão de edição.'))}
@@ -175,7 +180,7 @@ function viewResumo(){
   if(selTeam&&!teams.includes(selTeam))selTeam='';
   h+=`<div class="chips"><select id="tsel" aria-label="Filtrar por time"><option value="">Todos os times</option>${teams.map(n=>`<option value="${esc(n)}" ${n===selTeam?'selected':''}>${esc(n)}</option>`).join('')}</select></div>`;
   const cs=clubStats(S.matches.filter(played));
-  h+=`<div class="card"><div class="dt">${tn('Americano FC')} · total geral</div><div class="kp">${[['Jogos',cs.j,''],['✅ Vitórias',cs.v,'kw'],['🟨 Empates',cs.e,'ke'],['❌ Derrotas',cs.d,'kl'],['Gols feitos',cs.gf,'gf'],['Gols tomados',cs.gt,'gt'],['Saldo',(cs.gf-cs.gt>0?'+':'')+(cs.gf-cs.gt),'']].map(([l,v,c])=>`<div class="${c}"><b>${v}</b><span>${l}</span></div>`).join('')}</div></div>`;
+  h+=`<div class="card"><div class="dt">${tn('Americano FC')} · total geral</div><div class="kp">${[['Jogos',cs.j,''],['✅ Vitórias',cs.v,'kw'],['🟨 Empates',cs.e,'ke'],['❌ Derrotas',cs.d,'kl'],['GP (Gols Pró)',cs.gf,'gf'],['GC (Gols Contra)',cs.gt,'gt'],['Saldo',(cs.gf-cs.gt>0?'+':'')+(cs.gf-cs.gt),'']].map(([l,v,c])=>`<div class="${c}"><b>${v}</b><span>${l}</span></div>`).join('')}</div></div>`;
   const g={};
   S.matches.filter(played).filter(m=>!selTeam||m.home===selTeam||m.away===selTeam).forEach(m=>{
     const [y,mo]=(m.date||'').split('-');
@@ -191,10 +196,10 @@ function viewResumo(){
       if(m.hs>m.as){a.v++;b.d++}else if(m.hs<m.as){b.v++;a.d++}else{a.e++;b.e++}});
     const rows=Object.values(T).filter(r=>!selTeam||r.n===selTeam).map(r=>({...r,p:r.v*3+r.e})).sort((a,b)=>b.p-a.p||b.v-a.v||(b.gp-b.gc)-(a.gp-a.gc)||a.n.localeCompare(b.n));
     const lb=k==='0'?'Sem data':grp==='ano'?k:MESES[+k.slice(5)-1]+'/'+k.slice(0,4);
-    h+=`<div class="sec">${esc(lb)} · ${ms.length} ${ms.length===1?'jogo':'jogos'}</div><div class="card wrap"><table><thead><tr><th>Time</th><th class="n">J</th><th class="n kw">✅ V</th><th class="n ke">🟨 E</th><th class="n kl">❌ D</th><th class="n">GF</th><th class="n">GT</th><th class="n">Pts</th></tr></thead><tbody>`+
+    h+=`<div class="sec">${esc(lb)} · ${ms.length} ${ms.length===1?'jogo':'jogos'}</div><div class="card wrap"><table><thead><tr><th>Time</th><th class="n">J</th><th class="n kw">✅ V</th><th class="n ke">🟨 E</th><th class="n kl">❌ D</th><th class="n">GP</th><th class="n">GC</th><th class="n">Pts</th></tr></thead><tbody>`+
       rows.map(r=>`<tr class="${mine(r.n)?'me':''}"><td><b>${tn(r.n)}</b></td><td class="n">${r.j}</td><td class="n kw"><b>${r.v}</b></td><td class="n ke">${r.e}</td><td class="n kl">${r.d}</td><td class="n">${r.gp}</td><td class="n">${r.gc}</td><td class="n"><b>${r.p}</b></td></tr>`).join('')+'</tbody></table></div>'+clubLine(ms);
   });
-  return h+'<div class="hint">J = jogos · V = vitórias · E = empates · D = derrotas · GF = gols feitos · GT = gols tomados · Pts = pontos (vitória 3, empate 1)</div>';
+  return h+'<div class="hint">J = jogos · V = vitórias · E = empates · D = derrotas · GP = gols pró · GC = gols contra · Pts = pontos (vitória 3, empate 1)</div>';
 }
 
 function render(){
@@ -253,7 +258,7 @@ document.addEventListener('click',e=>{
 });
 
 const ADMIN=(()=>{try{if(location.hash==='#admin')localStorage.setItem('afc-admin','1');if(location.hash==='#sair')localStorage.removeItem('afc-admin');return localStorage.getItem('afc-admin')==='1'}catch(e){return location.hash==='#admin'}})();
-function adminBar(){return '<div class="hint" style="margin:0 0 10px;padding:8px 10px;border:1px dashed var(--bd);border-radius:8px">🔒 Modo administrador: as alterações ficam só neste aparelho até você publicar o arquivo dados.json no Netlify.<div class="act" style="margin-top:6px"><button class="btn" data-act="dl">⬇ Baixar dados.json</button> <button class="btn" data-act="reset">↺ Descartar rascunho</button></div></div>'}
+function adminBar(){return '<div class="hint" style="margin:0 0 10px;padding:8px 10px;border:1px dashed var(--bd);border-radius:8px">🔒 Modo administrador: as alterações ficam só neste aparelho até você publicar o arquivo dados.json no GitHub.<div class="act" style="margin-top:6px"><button class="btn" data-act="dl">⬇ Baixar dados.json</button> <button class="btn" data-act="reset">↺ Descartar rascunho</button></div></div>'}
 function baixar(){const b=new Blob([JSON.stringify({matches:S.matches},null,1)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='dados.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),2000)}
 async function carregar(){
   try{const r=await fetch('dados.json?v='+Date.now(),{cache:'no-store'});if(!r.ok)throw 0;const d=await r.json();if(!Array.isArray(d.matches))throw 0;return d}catch(e){return SEED}
@@ -264,6 +269,7 @@ async function init(){
   let d=null;
   if(ADMIN){try{d=JSON.parse(localStorage.getItem('fut')||'null')}catch(e){}}
   S=d&&Array.isArray(d.matches)?d:await carregar();
+  try{const r=await fetch('logos/lista.json?v='+Date.now(),{cache:'no-store'});if(r.ok){const j=await r.json();LMAP={};for(const k in j)LMAP[slug(k)]=j[k]}}catch(e){}
   render();
 }
 render();

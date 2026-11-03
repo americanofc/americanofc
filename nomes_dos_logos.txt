@@ -1,0 +1,32 @@
+TIME -> NOME DO ARQUIVO DO LOGO (pasta "logos")
+
+AMIGOS ALEX -> amigos-alex.png
+AMIGOS FC -> amigos-fc.png
+CADIOLLI -> cadiolli.png
+DESP.RINCONENSE -> desp-rinconense.png
+FLAMENGUINHO -> flamenguinho.png
+HUMILDADE FC -> humildade-fc.png
+HUUURAP -> huuurap.png
+INTERNACIONAL -> internacional.png
+JD AMÉRICA -> jd-america.png
+JUVENTUDE -> juventude.png
+LYON S.LUCIA -> lyon-s-lucia.png
+MARIA LUIZA -> maria-luiza.png
+MAROLA SANKA -> marola-sanka.png
+MAURÃO SERN -> maurao-sern.png
+MERCENARIOS -> mercenarios.png
+MONTE CARLO -> monte-carlo.png
+MOTUCA FC -> motuca-fc.png
+OPERARIO -> operario.png
+PAINEIRAS FC -> paineiras-fc.png
+PINTADAS -> pintadas.png
+PRUDENTE -> prudente.png
+RIBEIRÃO BONITO -> ribeirao-bonito.png
+TIGRES SL -> tigres-sl.png
+TIMÃO GUATAPARÁ -> timao-guatapara.png
+TORIBA -> toriba.png
+TUPI FC -> tupi-fc.png
+UNESP -> unesp.png
+UNIÃO RB BONITO -> uniao-rb-bonito.png
+VETSHOW -> vetshow.png
+VILA FUNDÃO -> vila-fundao.png
