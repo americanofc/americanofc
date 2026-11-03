@@ -91,11 +91,12 @@ const fdate=(d,t)=>{if(!d)return'Data a definir';const [y,mo,da]=d.split('-').ma
 const key=m=>(m.date||'9999')+(m.time||'');
 const mine=n=>/americano|^afc$/i.test((n||'').trim());
 const LOGO=document.querySelector('.hd img').src;document.documentElement.style.setProperty('--logo','url("'+LOGO+'")');
-const EXT=['png','webp','jpg','jpeg','svg'],LG={};let LMAP={};
+const EXT=['png','jpg','jpeg','webp','svg','gif','avif','jfif','PNG','JPG','JPEG','WEBP'],LG={};let LMAP={};
 const slug=n=>(n||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
+const HASEXT=/\.(png|jpe?g|webp|svg|gif|avif|jfif)$/i;
 function logoOk(i){LG[i.dataset.s]=i.getAttribute('src')}
-function logoErr(i){const s=i.dataset.s;if(i.dataset.m){LG[s]=null;i.remove();return}const k=+i.dataset.i+1;if(k<EXT.length){i.dataset.i=k;i.src='logos/'+s+'.'+EXT[k]}else{LG[s]=null;i.remove()}}
-function logoTag(n){const s=slug(n);if(!s||LG[s]===null)return'';let src=LG[s],m='';if(!src){if(LMAP[s]){src='logos/'+encodeURI(LMAP[s]);m=' data-m="1"'}else src='logos/'+s+'.'+EXT[0]}return '<img class="tl" src="'+src+'" alt="" data-s="'+s+'" data-i="0"'+m+' onload="logoOk(this)" onerror="logoErr(this)">'}
+function logoErr(i){const s=i.dataset.s;if(i.dataset.m){LG[s]=null;i.remove();return}const k=+i.dataset.i+1;if(k<EXT.length){i.dataset.i=k;i.src='logos/'+i.dataset.b+'.'+EXT[k]}else{LG[s]=null;i.remove()}}
+function logoTag(n){const s=slug(n);if(!s||LG[s]===null)return'';let src=LG[s],m='',b=s;if(!src){if(LMAP[s]){const v=LMAP[s];if(HASEXT.test(v)){src='logos/'+encodeURI(v);m=' data-m="1"'}else{b=encodeURI(v);src='logos/'+b+'.'+EXT[0]}}else src='logos/'+s+'.'+EXT[0]}return '<img class="tl" src="'+src+'" alt="" data-s="'+s+'" data-b="'+b+'" data-i="0"'+m+' onload="logoOk(this)" onerror="logoErr(this)">'}
 const tn=n=>mine(n)?'<i class="lg"></i>'+esc(n):logoTag(n)+esc(n);
 const BADGE={w:'✅ Vitória',e:'🟨 Empate',l:'❌ Derrota'};
 function resOf(m){if(!played(m))return'';const h=mine(m.home),a=mine(m.away);if(!h&&!a)return'';const f=h?m.hs:m.as,c=h?m.as:m.hs;return f>c?'w':f<c?'l':'e'}
