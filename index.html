@@ -37,6 +37,8 @@ button,input,select{font:inherit;color:inherit}
 .sec{font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--mu);margin:16px 0 8px}
 .btn{padding:7px 12px;border:1px solid var(--bd);background:var(--card);border-radius:8px;cursor:pointer;font-size:14px}
 .btn.p{background:var(--ac);color:#fff;border-color:var(--ac)}
+a.btn{text-decoration:none;display:inline-block;color:inherit}
+a.btn.p{color:#fff}
 .btn.d{color:var(--dn)}
 .act{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
 input,select{padding:8px;border:1px solid var(--bd);border-radius:8px;background:var(--bg);min-width:0}
@@ -127,14 +129,18 @@ function scorers(){
 
 function card(m){
   const ed=canEdit&&editing===m.id;
-  const sc=played(m)?`<div class="sc">${m.hs} x ${m.as}</div>`:`<div class="sc vs">x</div>`;
+  const loc=(m.local||'').trim(),fora=mine(m.home)&&loc&&!/^afc$/i.test(loc);
+  const sc=played(m)?`<div class="sc">${fora?m.as+' x '+m.hs:m.hs+' x '+m.as}</div>`:`<div class="sc vs">x</div>`;
   const gl=(m.scorers||[]).filter(s=>s.name&&s.goals).map(s=>`${esc(s.name)}${s.goals>1?' ('+s.goals+')':''}`).join(', ');
   const rs=resOf(m);let h=`<div class="card ${rs?'r'+rs:''}" data-id="${m.id}"><div class="dt">${esc(fdate(m.date,m.time))}${m.local?' · 📍 '+esc(m.local):''}${m.canc?' · <b class="warn">Cancelado</b>':''}${rs?` · <b class="b${rs}">${BADGE[rs]}</b>`:''}</div>
-  <div class="row"><div class="tm">${tn(m.home)}</div>${sc}<div class="tm r">${tn(m.away)}</div></div>`;
+  <div class="row"><div class="tm">${tn(fora?m.away:m.home)}</div>${sc}<div class="tm r">${tn(fora?m.home:m.away)}</div></div>`;
   if(gl&&!ed)h+=`<div class="gl">⚽ ${gl}</div>`;
+  const pk=(Array.isArray(m.posts)?m.posts:[]).filter(Boolean);
+  if(pk.length&&!ed)h+=`<div class="act">${pk.map((f,i)=>`<a class="btn p" href="posts/${esc(encodeURI(f))}" download>⬇ Baixar post do jogo${pk.length>1?' '+(i+1):''}</a>`).join('')}</div>`;
   if(ed){
     const d=draft;
-    h+=`<div class="ed"><input class="sn" id="hs" type="number" min="0" value="${d.hs}" aria-label="Gols ${esc(m.home)}"><b>x</b><input class="sn" id="as" type="number" min="0" value="${d.as}" aria-label="Gols ${esc(m.away)}"></div>
+    const iH=`<input class="sn" id="hs" type="number" min="0" value="${d.hs}" aria-label="Gols ${esc(m.home)}">`,iA=`<input class="sn" id="as" type="number" min="0" value="${d.as}" aria-label="Gols ${esc(m.away)}">`;
+    h+=`<div class="ed">${fora?iA:iH}<b>x</b>${fora?iH:iA}</div>
     <div class="dt">Quem fez os gols?</div>`;
     d.scorers.forEach((s,i)=>{
       h+=`<div class="sr"><input class="pn" list="players" placeholder="Jogador" value="${esc(s.name)}">
@@ -144,7 +150,7 @@ function card(m){
     h+=`<div class="act"><button class="btn" data-act="addsc">+ Jogador</button></div><div class="hint" id="chk"></div>
     <div class="act"><button class="btn p" data-act="save">Salvar resultado</button><button class="btn" data-act="cancel">Cancelar</button>${played(m)?'<button class="btn d" data-act="clear">Limpar resultado</button>':''}</div>`;
   }else if(canEdit){
-    h+=`<div class="act"><button class="btn" data-act="edit">${played(m)?'Editar resultado':'Lançar resultado'}</button><button class="btn d" data-act="del">Excluir</button></div>`;
+    h+=`<div class="act"><button class="btn" data-act="edit">${played(m)?'Editar resultado':'Lançar resultado'}</button><button class="btn" data-act="posts">🖼 Posts${Array.isArray(m.posts)&&m.posts.length?' ('+m.posts.length+')':''}</button><button class="btn d" data-act="del">Excluir</button></div>`;
   }
   return h+'</div>';
 }
@@ -244,6 +250,14 @@ document.addEventListener('click',e=>{
   if(act==='csv')return baixarCsv();
   if(act==='reset')return descartar();
   const c=t.closest('.card'),id=c&&c.dataset.id,m=S.matches.find(x=>x.id===id);
+  if(act==='posts'){
+    const cur=(Array.isArray(m.posts)?m.posts:[]).join(', ');
+    const v=prompt('Nome(s) do(s) arquivo(s) da pasta "posts", separados por vírgula (ex.: jogo-07-nov.png). Deixe vazio para remover o post deste jogo.',cur);
+    if(v===null)return;
+    const l=v.split(',').map(x=>x.trim()).filter(Boolean);
+    if(l.length)m.posts=l;else delete m.posts;
+    return persist();
+  }
   if(act==='add'){
     const home=$('#nh').value.trim(),away=$('#na').value.trim();
     if(!home||!away)return alert('Informe os dois times.');
