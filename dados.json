@@ -765,7 +765,10 @@
    "local": "AFC",
    "hs": null,
    "as": null,
-   "scorers": []
+   "scorers": [],
+   "posts": [
+    "jogo-07-nov"
+   ]
   }
  ]
 }
