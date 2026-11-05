@@ -136,7 +136,7 @@ function card(m){
   <div class="row"><div class="tm">${tn(fora?m.away:m.home)}</div>${sc}<div class="tm r">${tn(fora?m.home:m.away)}</div></div>`;
   if(gl&&!ed)h+=`<div class="gl">⚽ ${gl}</div>`;
   const pk=(Array.isArray(m.posts)?m.posts:[]).filter(Boolean);
-  if(pk.length&&!ed)h+=`<div class="act">${pk.map((f,i)=>`<a class="btn p" href="posts/${esc(encodeURI(f))}" download>⬇ Baixar post do jogo${pk.length>1?' '+(i+1):''}</a>`).join('')}</div>`;
+  if(pk.length&&!ed)h+=`<div class="act">${pk.map((f,i)=>`<button class="btn p" data-act="dlpost" data-f="${esc(f)}">⬇ Baixar post do jogo${pk.length>1?' '+(i+1):''}</button>`+(navigator.canShare?`<button class="btn" data-act="sharepost" data-f="${esc(f)}">📤 Compartilhar</button>`:'')).join('')}</div>`;
   if(ed){
     const d=draft;
     const iH=`<input class="sn" id="hs" type="number" min="0" value="${d.hs}" aria-label="Gols ${esc(m.home)}">`,iA=`<input class="sn" id="as" type="number" min="0" value="${d.as}" aria-label="Gols ${esc(m.away)}">`;
@@ -248,6 +248,8 @@ document.addEventListener('click',e=>{
   const act=t.dataset.act;if(!act)return;
   if(act==='dl')return baixar();
   if(act==='csv')return baixarCsv();
+  if(act==='dlpost')return baixarPost(t.dataset.f);
+  if(act==='sharepost')return compartilharPost(t.dataset.f);
   if(act==='reset')return descartar();
   const c=t.closest('.card'),id=c&&c.dataset.id,m=S.matches.find(x=>x.id===id);
   if(act==='posts'){
@@ -281,6 +283,17 @@ document.addEventListener('click',e=>{
 const ADMIN=(()=>{try{if(location.hash==='#admin')localStorage.setItem('afc-admin','1');if(location.hash==='#sair')localStorage.removeItem('afc-admin');return localStorage.getItem('afc-admin')==='1'}catch(e){return location.hash==='#admin'}})();
 function adminBar(){return '<div class="hint" style="margin:0 0 10px;padding:8px 10px;border:1px dashed var(--bd);border-radius:8px">🔒 Modo administrador: as alterações ficam só neste aparelho até você publicar o arquivo dados.json no GitHub.<div class="act" style="margin-top:6px"><button class="btn" data-act="dl">⬇ Baixar dados.json</button> <button class="btn" data-act="csv">📊 Baixar planilha (Excel)</button> <button class="btn" data-act="reset">↺ Descartar rascunho</button></div></div>'}
 function baixar(){const b=new Blob([JSON.stringify({matches:S.matches},null,1)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='dados.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),2000)}
+async function postBlob(f){const r=await fetch('posts/'+encodeURI(f),{cache:'no-cache'});if(!r.ok)throw new Error(r.status);return await r.blob()}
+async function baixarPost(f){
+  try{const b=await postBlob(f);const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=f;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),4000)}
+  catch(e){alert('Não foi possível baixar a imagem agora. Tente de novo em instantes.')}
+}
+async function compartilharPost(f){
+  try{const b=await postBlob(f);const file=new File([b],f,{type:b.type||'image/png'});
+    if(navigator.canShare&&navigator.canShare({files:[file]}))await navigator.share({files:[file],title:'Americano FC'});
+    else baixarPost(f)}
+  catch(e){if(e&&e.name==='AbortError')return;baixarPost(f)}
+}
 function baixarCsv(){
   const q=v=>'"'+String(v==null?'':v).replace(/"/g,'""')+'"';
   const dt=d=>d?d.split('-').reverse().join('/'):'';
