@@ -283,10 +283,10 @@ document.addEventListener('click',e=>{
 const ADMIN=(()=>{try{if(location.hash==='#admin')localStorage.setItem('afc-admin','1');if(location.hash==='#sair')localStorage.removeItem('afc-admin');return localStorage.getItem('afc-admin')==='1'}catch(e){return location.hash==='#admin'}})();
 function adminBar(){return '<div class="hint" style="margin:0 0 10px;padding:8px 10px;border:1px dashed var(--bd);border-radius:8px">🔒 Modo administrador: as alterações ficam só neste aparelho até você publicar o arquivo dados.json no GitHub.<div class="act" style="margin-top:6px"><button class="btn" data-act="dl">⬇ Baixar dados.json</button> <button class="btn" data-act="csv">📊 Baixar planilha (Excel)</button> <button class="btn" data-act="reset">↺ Descartar rascunho</button></div></div>'}
 function baixar(){const b=new Blob([JSON.stringify({matches:S.matches},null,1)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='dados.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),2000)}
-async function postBlob(f){const r=await fetch('posts/'+encodeURI(f),{cache:'no-cache'});if(!r.ok)throw new Error(r.status);return await r.blob()}
+async function postBlob(f){const r=await fetch('posts/'+encodeURI(f),{cache:'no-cache'});if(!r.ok){const e=new Error('http');e.st=r.status;throw e}return await r.blob()}
 async function baixarPost(f){
   try{const b=await postBlob(f);const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=f;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),4000)}
-  catch(e){alert('Não foi possível baixar a imagem agora. Tente de novo em instantes.')}
+  catch(e){alert('Não foi possível baixar a imagem.\nArquivo procurado: posts/'+f+'\n'+(e&&e.st?'Erro '+e.st+(e.st===404?' (arquivo não encontrado: confira o nome e a pasta no GitHub)':''):'Sem conexão com o servidor.'))}
 }
 async function compartilharPost(f){
   try{const b=await postBlob(f);const file=new File([b],f,{type:b.type||'image/png'});
