@@ -763,12 +763,24 @@
    "home": "Americano FC",
    "away": "DESP.RINCONENSE",
    "local": "AFC",
-   "hs": null,
-   "as": null,
-   "scorers": [],
+   "hs": 2,
+   "as": 0,
+   "scorers": [
+    {
+     "name": "Giovani",
+     "team": "Americano FC",
+     "goals": 1
+    },
+    {
+     "name": "André Braga",
+     "team": "Americano FC",
+     "goals": 1
+    }
+   ],
    "posts": [
     "americano_desportiva_rincao.png"
-   ]
+   ],
+   "canc": false
   }
  ]
 }
