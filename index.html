@@ -37,6 +37,7 @@ button,input,select{font:inherit;color:inherit}
 .sec{font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--mu);margin:16px 0 8px}
 .btn{padding:7px 12px;border:1px solid var(--bd);background:var(--card);border-radius:8px;cursor:pointer;font-size:14px}
 .btn.p{background:var(--ac);color:#fff;border-color:var(--ac)}
+button.lnk{background:none;border:0;color:var(--mu);font-size:13px;text-decoration:underline;cursor:pointer;padding:8px;opacity:.8}
 a.btn{text-decoration:none;display:inline-block;color:inherit}
 a.btn.p{color:#fff}
 .btn.d{color:var(--dn)}
@@ -83,6 +84,21 @@ td.g{font-weight:700;color:var(--ac);text-align:center;font-size:18px}
 <datalist id="players"></datalist>
 </main>
 <script>
+const APP_VER='2026-11-06';
+const LOG=[];let TESTS=[],TEST_AT='',TESTING=false,DSRC='—';
+try{const o=JSON.parse(localStorage.getItem('afc-log')||'[]');if(Array.isArray(o))o.forEach(x=>LOG.push(x))}catch(e){}
+function lg(k,m,x){
+  LOG.push({t:new Date().toISOString(),k:k,m:String(m).slice(0,300),x:x==null||x===''?'':String(x).slice(0,300)});
+  while(LOG.length>300)LOG.shift();
+  try{localStorage.setItem('afc-log',JSON.stringify(LOG.slice(-120)))}catch(_){}
+}
+lg('INFO','Sessão iniciada',location.href.split('#')[0]);
+addEventListener('error',e=>{const t=e.target;
+  if(t&&t!==window&&t.tagName){if(t.classList&&t.classList.contains('tl'))return;lg('ERRO','Recurso não carregou',t.src||t.href||t.tagName)}
+  else lg('ERRO',e.message,String(e.filename||'').split('/').pop()+':'+e.lineno)},true);
+addEventListener('unhandledrejection',e=>lg('ERRO','Falha não tratada',(e.reason&&e.reason.message)||e.reason));
+addEventListener('online',()=>lg('INFO','Conexão com a internet voltou'));
+addEventListener('offline',()=>lg('AVISO','Sem conexão com a internet'));
 const SEED={"matches": [{"as": 0, "away": "PAINEIRAS FC", "date": "2026-01-10", "home": "Americano FC", "hs": 1, "id": "lfxctnc", "local": "AFC", "scorers": [], "time": ""}, {"as": 2, "away": "UNESP", "date": "2026-01-17", "home": "Americano FC", "hs": 3, "id": "sbpcdp3", "local": "AFC", "scorers": [], "time": ""}, {"as": 3, "away": "MAROLA SANKA", "date": "2026-01-24", "home": "Americano FC", "hs": 1, "id": "eiw8uo9", "local": "AFC", "scorers": [], "time": ""}, {"as": 1, "away": "TIMÃO GUATAPARÁ", "date": "2026-01-31", "home": "Americano FC", "hs": 2, "id": "b4kfel3", "local": "AFC", "scorers": [], "time": ""}, {"as": 3, "away": "INTERNACIONAL", "date": "2026-02-07", "home": "Americano FC", "hs": 1, "id": "guxntcc", "local": "AFC", "scorers": [], "time": ""}, {"as": 1, "away": "MOTUCA FC", "date": "2026-02-14", "home": "Americano FC", "hs": 2, "id": "hyplvqk", "local": "AFC", "scorers": [], "time": ""}, {"as": 0, "away": "RIBEIRÃO BONITO", "date": "2026-02-21", "home": "Americano FC", "hs": 4, "id": "2zius50", "local": "AFC", "scorers": [], "time": ""}, {"as": 2, "away": "HUMILDADE FC", "date": "2026-02-28", "home": "Americano FC", "hs": 1, "id": "k9ep1fr", "local": "AFC", "scorers": [], "time": ""}, {"as": 1, "away": "VILA FUNDÃO", "date": "2026-03-07", "home": "Americano FC", "hs": 2, "id": "by1u5lz", "local": "AFC", "scorers": [], "time": ""}, {"as": 1, "away": "VETSHOW", "date": "2026-03-14", "home": "Americano FC", "hs": 1, "id": "vuq48rx", "local": "AFC", "scorers": [], "time": ""}, {"as": 3, "away": "JD AMÉRICA", "date": "2026-03-21", "home": "Americano FC", "hs": 1, "id": "czx93kn", "local": "AFC", "scorers": [], "time": ""}, {"as": 0, "away": "JUVENTUDE", "date": "2026-03-28", "home": "Americano FC", "hs": 0, "id": "yaqgec1", "local": "AFC", "scorers": [], "time": ""}, {"as": 6, "away": "MARIA LUIZA", "date": "2026-04-04", "home": "Americano FC", "hs": 3, "id": "eio5cqt", "local": "AFC", "scorers": [], "time": ""}, {"as": 1, "away": "HUUURAP", "date": "2026-04-11", "home": "Americano FC", "hs": 2, "id": "535kom5", "local": "AFC", "scorers": [], "time": ""}, {"as": 2, "away": "MAURÃO SERN", "date": "2026-04-18", "home": "Americano FC", "hs": 3, "id": "8fgiirv", "local": "AFC", "scorers": [], "time": ""}, {"as": 3, "away": "UNESP", "date": "2026-04-25", "home": "Americano FC", "hs": 5, "id": "japnu8y", "local": "AFC", "scorers": [], "time": ""}, {"as": 0, "away": "MOTUCA FC", "date": "2026-05-02", "home": "Americano FC", "hs": 2, "id": "swyb625", "local": "AFC", "scorers": [], "time": ""}, {"as": 0, "away": "FLAMENGUINHO", "date": "2026-05-09", "home": "Americano FC", "hs": 2, "id": "2oodwcc", "local": "TAQUARITING", "scorers": [], "time": ""}, {"as": 3, "away": "CADIOLLI", "date": "2026-05-16", "home": "Americano FC", "hs": 2, "id": "hfmbafd", "local": "AFC", "scorers": [], "time": ""}, {"as": 2, "away": "INTERNACIONAL", "date": "2026-05-23", "home": "Americano FC", "hs": 0, "id": "na5wfjm", "local": "STA LUCIA", "scorers": [], "time": ""}, {"as": 2, "away": "LYON S.LUCIA", "date": "2026-05-30", "home": "Americano FC", "hs": 7, "id": "ne49qrd", "local": "AFC", "scorers": [], "time": ""}, {"as": 1, "away": "JD AMÉRICA", "date": "2026-06-06", "home": "Americano FC", "hs": 6, "id": "dmj3fa8", "local": "AFC", "scorers": [], "time": ""}, {"as": 3, "away": "INTERNACIONAL", "date": "2026-06-13", "home": "Americano FC", "hs": 1, "id": "tftat95", "local": "AFC", "scorers": [], "time": ""}, {"as": 0, "away": "VETSHOW", "date": "2026-06-20", "home": "Americano FC", "hs": 2, "id": "zjng1t2", "local": "GUATAPARÁ", "scorers": [], "time": ""}, {"as": 0, "away": "AMIGOS ALEX", "date": "2026-06-27", "home": "Americano FC", "hs": 2, "id": "li39433", "local": "AFC", "scorers": [], "time": ""}, {"as": 1, "away": "PAINEIRAS FC", "date": "2026-07-04", "home": "Americano FC", "hs": 5, "id": "0ismbbk", "local": "AFC", "scorers": [], "time": ""}, {"as": 0, "away": "MONTE CARLO", "date": "2026-07-11", "home": "Americano FC", "hs": 0, "id": "jy8q798", "local": "AFC", "scorers": [], "time": ""}, {"as": 3, "away": "AMIGOS FC", "date": "2026-07-18", "home": "Americano FC", "hs": 1, "id": "nhihhw6", "local": "AFC", "scorers": [], "time": ""}, {"as": null, "away": "UNIÃO RB BONITO", "canc": true, "date": "2026-07-25", "home": "Americano FC", "hs": null, "id": "4rx2dx6", "local": "", "scorers": [], "time": ""}, {"as": 0, "away": "TIGRES SL", "date": "2026-08-01", "home": "Americano FC", "hs": 5, "id": "21rg2l2", "local": "STA LUCIA", "scorers": [], "time": ""}, {"as": 1, "away": "RIBEIRÃO BONITO", "date": "2026-08-08", "home": "Americano FC", "hs": 3, "id": "8oo80ge", "local": "RIB.BONITO", "scorers": [], "time": ""}, {"as": 1, "away": "UNESP", "date": "2026-08-15", "home": "Americano FC", "hs": 3, "id": "f63f39x", "local": "ARARAQUARA", "scorers": [], "time": ""}, {"as": 2, "away": "TIMÃO GUATAPARÁ", "date": "2026-08-22", "home": "Americano FC", "hs": 7, "id": "mtea8xs", "local": "GUATAPARÁ", "scorers": [], "time": ""}, {"as": 1, "away": "INTERNACIONAL", "date": "2026-08-29", "home": "Americano FC", "hs": 1, "id": "7p53hjk", "local": "AFC", "scorers": [], "time": ""}, {"as": 0, "away": "TIGRES SL", "date": "2026-09-05", "home": "Americano FC", "hs": 2, "id": "ivjpe6m", "local": "AFC", "scorers": [], "time": ""}, {"as": 3, "away": "JD AMÉRICA", "date": "2026-09-12", "home": "Americano FC", "hs": 2, "id": "qv6p7st", "local": "MUNICIPAL", "scorers": [], "time": ""}, {"as": 3, "away": "TORIBA", "date": "2026-09-19", "home": "Americano FC", "hs": 4, "id": "sapga2g", "local": "AFC", "scorers": [], "time": ""}, {"as": 1, "away": "TUPI FC", "date": "2026-09-26", "home": "Americano FC", "hs": 2, "id": "r0ulst2", "local": "AFC", "scorers": [], "time": ""}, {"as": 2, "away": "FLAMENGUINHO", "date": "2026-10-03", "home": "Americano FC", "hs": 1, "id": "duij1su", "local": "AFC", "scorers": [], "time": ""}, {"as": null, "away": "PRUDENTE", "canc": true, "date": "2026-10-10", "home": "Americano FC", "hs": null, "id": "16pwssy", "local": "AFC", "scorers": [], "time": ""}, {"as": 2, "away": "MERCENARIOS", "date": "2026-10-17", "home": "Americano FC", "hs": 4, "id": "qtr7z57", "local": "AFC", "scorers": [], "time": ""}, {"as": 0, "away": "UNESP", "date": "2026-10-24", "home": "Americano FC", "hs": 4, "id": "ju74eep", "local": "ARARAQUARA", "scorers": [], "time": ""}, {"as": null, "away": "OPERARIO", "date": "2026-10-31", "home": "Americano FC", "hs": null, "id": "cicy26f", "local": "AFC", "scorers": [], "time": ""}, {"as": null, "away": "DESP.RINCONENSE", "date": "2026-11-07", "home": "Americano FC", "hs": null, "id": "zxf58h8", "local": "AFC", "scorers": [], "time": ""}, {"as": null, "away": "INTERNACIONAL", "date": "2026-11-14", "home": "Americano FC", "hs": null, "id": "or93fps", "local": "STA LUCIA", "scorers": [], "time": ""}, {"as": null, "away": "JUVENTUDE", "date": "2026-11-21", "home": "Americano FC", "hs": null, "id": "mhlzatp", "local": "AFC", "scorers": [], "time": ""}, {"as": null, "away": "LYON S.LUCIA", "date": "2026-11-28", "home": "Americano FC", "hs": null, "id": "alwsc92", "local": "STA LUCIA", "scorers": [], "time": ""}, {"as": null, "away": "HUUURAP", "date": "2026-12-05", "home": "Americano FC", "hs": null, "id": "8djb2je", "local": "AFC", "scorers": [], "time": ""}, {"as": null, "away": "PINTADAS", "date": "2026-12-12", "home": "Americano FC", "hs": null, "id": "p63jf7u", "local": "AFC", "scorers": [], "time": ""}]};
 const $=s=>document.querySelector(s);
 const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -99,10 +115,10 @@ const HASEXT=/\.(png|jpe?g|webp|svg|gif|avif|jfif)$/i;
 function logoOk(i){LG[i.dataset.s]=i.getAttribute('src')}
 function logoErr(i){const s=i.dataset.s;
   const fb=()=>{if(i.dataset.b!==s||i.dataset.m){delete i.dataset.m;i.dataset.b=s;i.dataset.i=0;i.src='logos/'+s+'.'+EXT[0];return true}return false};
-  if(i.dataset.m){if(fb())return;LG[s]=null;i.remove();return}
+  if(i.dataset.m){if(fb())return;LG[s]=null;lg('AVISO','Logo não encontrado','logos/'+s+'.png (ou outro formato)');i.remove();return}
   const k=+i.dataset.i+1;
   if(k<EXT.length){i.dataset.i=k;i.src='logos/'+i.dataset.b+'.'+EXT[k]}
-  else if(!fb()){LG[s]=null;i.remove()}}
+  else if(!fb()){LG[s]=null;lg('AVISO','Logo não encontrado','logos/'+s+'.png (ou outro formato)');i.remove()}}
 function logoTag(n){const s=slug(n);if(!s||LG[s]===null)return'';let src=LG[s],m='',b=s;if(!src){if(LMAP[s]){const v=LMAP[s];if(HASEXT.test(v)){src='logos/'+encodeURI(v);m=' data-m="1"'}else{b=encodeURI(v);src='logos/'+b+'.'+EXT[0]}}else src='logos/'+s+'.'+EXT[0]}return '<img class="tl" src="'+src+'" alt="" data-s="'+s+'" data-b="'+b+'" data-i="0"'+m+' onload="logoOk(this)" onerror="logoErr(this)">'}
 const tn=n=>mine(n)?'<i class="lg"></i>'+esc(n):logoTag(n)+esc(n);
 const BADGE={w:'✅ Vitória',e:'🟨 Empate',l:'❌ Derrota'};
@@ -217,7 +233,7 @@ function viewResumo(){
 function render(){
   document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('on',b.dataset.tab===tab));
   const act=document.activeElement;
-  $('#app').innerHTML=mode==='wait'?'<div class="em">Carregando…</div>':(canEdit?adminBar():'')+(tab==='jogos'?viewJogos():tab==='res'?viewResumo():viewArt());
+  $('#app').innerHTML=mode==='wait'?'<div class="em">Carregando…</div>':(canEdit&&tab!=='log'?adminBar():'')+(tab==='jogos'?viewJogos():tab==='res'?viewResumo():tab==='log'?viewLog():viewArt())+(tab!=='log'?'<div style="text-align:center;margin:18px 0 6px"><button class="lnk" data-act="log">🩺 Diagnóstico</button></div>':'');
   $('#players').innerHTML=[...new Set(scorers().map(p=>p.name))].map(n=>`<option value="${esc(n)}">`).join('');
   checkGoals();
 }
@@ -248,6 +264,12 @@ document.addEventListener('click',e=>{
   const act=t.dataset.act;if(!act)return;
   if(act==='dl')return baixar();
   if(act==='csv')return baixarCsv();
+  if(act==='log')return abrirLog();
+  if(act==='logback'){tab='jogos';try{history.replaceState(null,'',location.pathname+location.search)}catch(e){}return render()}
+  if(act==='logtest')return rodarTestes();
+  if(act==='logcopy')return copiarRel();
+  if(act==='logdl')return baixarRel();
+  if(act==='logclear'){LOG.length=0;try{localStorage.removeItem('afc-log')}catch(e){}TESTS=[];TEST_AT='';lg('INFO','Registro limpo');return render()}
   if(act==='dlpost')return baixarPost(t.dataset.f);
   if(act==='sharepost')return compartilharPost(t.dataset.f);
   if(act==='reset')return descartar();
@@ -257,7 +279,7 @@ document.addEventListener('click',e=>{
     const v=prompt('Nome(s) do(s) arquivo(s) da pasta "posts", separados por vírgula (ex.: jogo-07-nov.png). Deixe vazio para remover o post deste jogo.',cur);
     if(v===null)return;
     const l=v.split(',').map(x=>x.trim()).filter(Boolean);
-    if(l.length)m.posts=l;else delete m.posts;
+    if(l.length)m.posts=l;else delete m.posts;lg('INFO','Posts do jogo alterados',(m.away||'')+' · '+(l.join(', ')||'removidos'));
     return persist();
   }
   if(act==='add'){
@@ -281,20 +303,20 @@ document.addEventListener('click',e=>{
 });
 
 const ADMIN=(()=>{try{if(location.hash==='#admin')localStorage.setItem('afc-admin','1');if(location.hash==='#sair')localStorage.removeItem('afc-admin');return localStorage.getItem('afc-admin')==='1'}catch(e){return location.hash==='#admin'}})();
-function adminBar(){return '<div class="hint" style="margin:0 0 10px;padding:8px 10px;border:1px dashed var(--bd);border-radius:8px">🔒 Modo administrador: as alterações ficam só neste aparelho até você publicar o arquivo dados.json no GitHub.<div class="act" style="margin-top:6px"><button class="btn" data-act="dl">⬇ Baixar dados.json</button> <button class="btn" data-act="csv">📊 Baixar planilha (Excel)</button> <button class="btn" data-act="reset">↺ Descartar rascunho</button></div></div>'}
-function baixar(){const b=new Blob([JSON.stringify({matches:S.matches},null,1)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='dados.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),2000)}
+function adminBar(){return '<div class="hint" style="margin:0 0 10px;padding:8px 10px;border:1px dashed var(--bd);border-radius:8px">🔒 Modo administrador: as alterações ficam só neste aparelho até você publicar o arquivo dados.json no GitHub.<div class="act" style="margin-top:6px"><button class="btn" data-act="dl">⬇ Baixar dados.json</button> <button class="btn" data-act="csv">📊 Baixar planilha (Excel)</button> <button class="btn" data-act="log">🩺 Diagnóstico</button> <button class="btn" data-act="reset">↺ Descartar rascunho</button></div></div>'}
+function baixar(){lg('INFO','Administrador baixou dados.json');const b=new Blob([JSON.stringify({matches:S.matches},null,1)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='dados.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),2000)}
 async function postBlob(f){const r=await fetch('posts/'+encodeURI(f),{cache:'no-cache'});if(!r.ok){const e=new Error('http');e.st=r.status;throw e}return await r.blob()}
 async function baixarPost(f){
-  try{const b=await postBlob(f);const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=f;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),4000)}
-  catch(e){alert('Não foi possível baixar a imagem.\nArquivo procurado: posts/'+f+'\n'+(e&&e.st?'Erro '+e.st+(e.st===404?' (arquivo não encontrado: confira o nome e a pasta no GitHub)':''):'Sem conexão com o servidor.'))}
+  try{const b=await postBlob(f);const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=f;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),4000);lg('OK','Post baixado',f+' ('+Math.round(b.size/1024)+' KB)')}
+  catch(e){lg('ERRO','Download do post falhou','posts/'+f+' · '+(e&&e.st?'HTTP '+e.st:(e&&e.message)||e));alert('Não foi possível baixar a imagem.\nArquivo procurado: posts/'+f+'\n'+(e&&e.st?'Erro '+e.st+(e.st===404?' (arquivo não encontrado: confira o nome e a pasta no GitHub)':''):'Sem conexão com o servidor.')+'\n\nDica: abra o Diagnóstico (link no fim da página) para ver o que está errado.')}
 }
 async function compartilharPost(f){
   try{const b=await postBlob(f);const file=new File([b],f,{type:b.type||'image/png'});
-    if(navigator.canShare&&navigator.canShare({files:[file]}))await navigator.share({files:[file],title:'Americano FC'});
+    if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],title:'Americano FC'});lg('OK','Post compartilhado',f)}
     else baixarPost(f)}
-  catch(e){if(e&&e.name==='AbortError')return;baixarPost(f)}
+  catch(e){if(e&&e.name==='AbortError')return;lg('AVISO','Compartilhar falhou; tentando baixar',f+' · '+((e&&e.message)||e));baixarPost(f)}
 }
-function baixarCsv(){
+function baixarCsv(){lg('INFO','Administrador baixou a planilha (CSV)');
   const q=v=>'"'+String(v==null?'':v).replace(/"/g,'""')+'"';
   const dt=d=>d?d.split('-').reverse().join('/'):'';
   const L=[['Data','Hora','Local','Mandante','Gols mandante','Gols visitante','Visitante','Situação','Artilheiros'].map(q).join(';')];
@@ -306,20 +328,111 @@ function baixarCsv(){
   const b=new Blob(['\ufeff'+L.join('\r\n')],{type:'text/csv;charset=utf-8'});
   const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='americano-fc-jogos.csv';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),2000)
 }
+
+function fmtT(iso){try{return new Date(iso).toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit'})}catch(e){return iso}}
+function envInfo(){
+  const sa=matchMedia('(display-mode: standalone)').matches||navigator.standalone;
+  let ls='ok';try{localStorage.setItem('_t','1');localStorage.removeItem('_t')}catch(e){ls='bloqueado'}
+  return [['Versão do app',APP_VER],['Endereço',location.href.split('#')[0]],['Modo',sa?'app instalado (tela cheia)':'navegador'],['Administrador',ADMIN?'sim':'não'],
+    ['Origem dos dados',DSRC],['Jogos carregados',S.matches.length+' ('+S.matches.filter(played).length+' com resultado)'],
+    ['Jogos com post liberado',S.matches.filter(m=>Array.isArray(m.posts)&&m.posts.length).length],['Conexão',navigator.onLine?'online':'offline'],
+    ['Armazenamento local',ls],['Compartilhar arquivos',navigator.canShare?'disponível':'indisponível'],['Tela',innerWidth+' x '+innerHeight],['Navegador',navigator.userAgent]];
+}
+async function imgOk(blob){const u=URL.createObjectURL(blob);try{const im=new Image();im.src=u;await im.decode();return im.naturalWidth+'x'+im.naturalHeight}catch(e){return null}finally{URL.revokeObjectURL(u)}}
+async function chk(url){try{return await fetch(url+(url.includes('?')?'&':'?')+'v='+Date.now(),{cache:'no-store'})}catch(e){return null}}
+async function achaLogo(n){
+  const s=slug(n),c=[],v=LMAP[s];
+  if(v){if(HASEXT.test(v))c.push(v);else EXT.forEach(e=>c.push(v+'.'+e))}
+  EXT.forEach(e=>c.push(s+'.'+e));
+  for(const f of c){const x=await chk('logos/'+encodeURI(f));if(x&&x.ok){const b=await x.blob();return {f,dim:await imgOk(b),kb:Math.round(b.size/1024)}}}
+  return null;
+}
+async function rodarTestes(){
+  if(TESTING)return;TESTING=true;TESTS=[];render();
+  const add=(st,m)=>TESTS.push({s:st,m});
+  try{
+    const r=await chk('dados.json');
+    if(!r)add('err','dados.json: sem resposta do servidor');
+    else if(!r.ok)add('err','dados.json: erro HTTP '+r.status+' (arquivo não encontrado na raiz do site)');
+    else{try{const d=await r.json();Array.isArray(d.matches)?add('ok','dados.json: '+d.matches.length+' jogos publicados'):add('err','dados.json: formato inválido')}catch(e){add('err','dados.json: JSON inválido ('+e.message+')')}}
+    for(const f of ['manifest.json','icon-192.png','icon-512.png','icon-180.png']){const x=await chk(f);add(x&&x.ok?'ok':'warn',f+': '+(x?(x.ok?'ok':'HTTP '+x.status):'sem resposta')+(x&&x.ok?'':(f==='icon-180.png'?' (ícone usado no iPhone)':' (necessário para instalar o app)')))}
+    const lr=await chk('logos/lista.json');
+    add(lr&&lr.ok?'ok':'warn','logos/lista.json: '+(lr?(lr.ok?'ok':'não encontrada (opcional)'):'sem resposta'));
+    const times=[...new Set(S.matches.flatMap(m=>[m.home,m.away]).filter(n=>n&&!mine(n)))].sort();
+    const out=[];
+    for(let i=0;i<times.length;i+=5){const part=times.slice(i,i+5);out.push(...await Promise.all(part.map(async n=>[n,await achaLogo(n)])))}
+    let nOk=0;
+    out.forEach(([n,x])=>{if(!x)add('warn','Logo de '+n+': não encontrado (esperado logos/'+slug(n)+'.png)');else if(!x.dim)add('err','Logo de '+n+': o arquivo '+x.f+' existe mas NÃO abre como imagem (corrompido ou formato inválido)');else nOk++});
+    add(nOk===times.length?'ok':'warn','Logos de adversários encontrados: '+nOk+' de '+times.length);
+    const cp=S.matches.filter(m=>Array.isArray(m.posts)&&m.posts.length);
+    if(!cp.length)add('warn','Nenhum jogo tem post liberado ainda');
+    for(const m of cp)for(const f of m.posts){
+      const lab=(m.away||'')+' · '+(m.date||'');
+      const dup=/\.(png|jpe?g|webp)\.(png|jpe?g|webp)$/i.test(f);
+      const sp=f!==f.trim();
+      const hint=(dup?' · extensão duplicada no nome':'')+(sp?' · espaço sobrando no nome':'');
+      const x=await chk('posts/'+encodeURI(f));
+      if(!x)add('err','Post "'+f+'" ('+lab+'): sem resposta do servidor');
+      else if(!x.ok)add('err','Post "'+f+'" ('+lab+'): HTTP '+x.status+' — não encontrado em posts/'+hint);
+      else{const b=await x.blob();const dim=await imgOk(b);dim?add('ok','Post "'+f+'" ('+lab+'): ok, '+dim+', '+Math.round(b.size/1024)+' KB'+hint):add('err','Post "'+f+'" ('+lab+'): o arquivo existe mas NÃO abre como imagem (corrompido ou formato inválido)'+hint)}
+    }
+  }catch(e){add('err','Erro ao rodar os testes: '+e.message);lg('ERRO','Falha nos testes',e.message)}
+  TEST_AT=new Date().toISOString();TESTING=false;
+  const ne=TESTS.filter(t=>t.s==='err').length,nw=TESTS.filter(t=>t.s==='warn').length;
+  lg(ne?'ERRO':nw?'AVISO':'OK','Testes concluídos',ne+' erro(s), '+nw+' aviso(s)');
+  render();
+}
+function relatorio(){
+  const L=['RELATÓRIO DE DIAGNÓSTICO - Americano FC','Gerado em: '+fmtT(new Date().toISOString()),'','== AMBIENTE =='];
+  envInfo().forEach(([k,v])=>L.push(k+': '+v));
+  L.push('','== TESTES '+(TEST_AT?'('+fmtT(TEST_AT)+')':'(não executados)')+' ==');
+  TESTS.forEach(t=>L.push({ok:'[OK]  ',warn:'[AVISO] ',err:'[ERRO] '}[t.s]+t.m));
+  L.push('','== REGISTRO (mais antigo primeiro) ==');
+  LOG.slice(-120).forEach(e=>L.push(fmtT(e.t)+' ['+e.k+'] '+e.m+(e.x?' | '+e.x:'')));
+  return L.join('\n');
+}
+function copiarRel(){
+  const t=relatorio();
+  const ok=()=>alert('Relatório copiado. Cole na conversa para enviar.');
+  if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t).then(ok,()=>copiaAlt(t,ok));else copiaAlt(t,ok);
+}
+function copiaAlt(t,ok){const a=document.createElement('textarea');a.value=t;a.style.cssText='position:fixed;opacity:0';document.body.appendChild(a);a.select();try{document.execCommand('copy');ok()}catch(e){alert('Não foi possível copiar. Use "Baixar relatório".')}a.remove()}
+function baixarRel(){const b=new Blob(['\ufeff'+relatorio()],{type:'text/plain;charset=utf-8'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='diagnostico-americano-fc.txt';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),2000);lg('INFO','Relatório baixado')}
+function abrirLog(){tab='log';render();scrollTo(0,0);if(!TESTS.length&&!TESTING)rodarTestes()}
+function viewLog(){
+  const cnt={ok:0,warn:0,err:0};TESTS.forEach(t=>cnt[t.s]++);
+  const ic={ok:'✅',warn:'⚠️',err:'❌'},col={ERRO:'#f87171',AVISO:'#fbbf24',OK:'#4ade80',INFO:'var(--mu)'};
+  let h='<div class="card"><div style="font-weight:700;font-size:17px">🩺 Diagnóstico e registro de erros</div><div class="hint" style="margin-top:4px">Use esta página para descobrir por que algo não funciona. Toque em “Copiar relatório” e envie o texto para quem está ajudando.</div>';
+  h+='<div class="act" style="margin-top:10px"><button class="btn p" data-act="logtest"'+(TESTING?' disabled':'')+'>'+(TESTING?'⏳ Testando…':'▶ Testar tudo agora')+'</button><button class="btn" data-act="logcopy">📋 Copiar relatório</button><button class="btn" data-act="logdl">⬇ Baixar relatório</button><button class="btn" data-act="logclear">🗑 Limpar registro</button><button class="btn" data-act="logback">← Voltar ao app</button></div></div>';
+  h+='<div class="card"><div style="font-weight:700;margin-bottom:6px">Testes'+(TEST_AT?' <span class="hint">('+fmtT(TEST_AT)+')</span>':'')+'</div>';
+  if(TESTING&&!TESTS.length)h+='<div class="hint">Verificando arquivos do site…</div>';
+  else if(!TESTS.length)h+='<div class="hint">Ainda não executados.</div>';
+  else{h+='<div class="hint" style="margin-bottom:8px">❌ '+cnt.err+' erro(s) · ⚠️ '+cnt.warn+' aviso(s) · ✅ '+cnt.ok+' ok</div>';
+    [...TESTS].sort((a,b)=>({err:0,warn:1,ok:2}[a.s]-{err:0,warn:1,ok:2}[b.s])).forEach(t=>{h+='<div style="padding:5px 0;border-top:1px solid var(--bd);font-size:14px;line-height:1.35;word-break:break-word">'+ic[t.s]+' '+esc(t.m)+'</div>'})}
+  h+='</div>';
+  h+='<div class="card"><div style="font-weight:700;margin-bottom:6px">Ambiente</div>';
+  envInfo().forEach(([k,v])=>{h+='<div style="padding:4px 0;border-top:1px solid var(--bd);font-size:13px;line-height:1.35;word-break:break-word"><span style="color:var(--mu)">'+esc(k)+':</span> '+esc(v)+'</div>'});
+  h+='</div>';
+  h+='<div class="card"><div style="font-weight:700;margin-bottom:6px">Registro de eventos <span class="hint">(últimos '+Math.min(LOG.length,80)+')</span></div>';
+  [...LOG].slice(-80).reverse().forEach(e=>{h+='<div style="padding:4px 0;border-top:1px solid var(--bd);font-size:12.5px;line-height:1.35;word-break:break-word;font-family:ui-monospace,Menlo,Consolas,monospace"><span style="color:var(--mu)">'+esc(fmtT(e.t))+'</span> <b style="color:'+(col[e.k]||'inherit')+'">'+esc(e.k)+'</b> '+esc(e.m)+(e.x?' <span style="color:var(--mu)">· '+esc(e.x)+'</span>':'')+'</div>'});
+  return h+'</div>';
+}
 async function carregar(){
-  try{const r=await fetch('dados.json?v='+Date.now(),{cache:'no-store'});if(!r.ok)throw 0;const d=await r.json();if(!Array.isArray(d.matches))throw 0;return d}catch(e){return SEED}
+  try{const r=await fetch('dados.json?v='+Date.now(),{cache:'no-store'});if(!r.ok)throw new Error('HTTP '+r.status);const d=await r.json();if(!Array.isArray(d.matches))throw new Error('formato inválido');DSRC='dados.json (site)';lg('OK','dados.json carregado',d.matches.length+' jogos');return d}catch(e){DSRC='dados embutidos no app (reserva)';lg('ERRO','dados.json não carregou; usando dados embutidos',e.message);return SEED}
 }
 function descartar(){if(!confirm('Descartar as alterações deste aparelho e voltar aos dados publicados?'))return;try{localStorage.removeItem('fut')}catch(e){}init()}
 async function init(){
   canEdit=ADMIN;mode='site';
   let d=null;
   if(ADMIN){try{d=JSON.parse(localStorage.getItem('fut')||'null')}catch(e){}}
-  S=d&&Array.isArray(d.matches)?d:await carregar();
-  try{const r=await fetch('logos/lista.json?v='+Date.now(),{cache:'no-store'});if(r.ok){const j=await r.json();LMAP={};for(const k in j)LMAP[slug(k)]=j[k]}}catch(e){}
+  S=d&&Array.isArray(d.matches)?(DSRC='rascunho local (modo administrador)',lg('INFO','Usando rascunho local do administrador'),d):await carregar();
+  try{const r=await fetch('logos/lista.json?v='+Date.now(),{cache:'no-store'});if(r.ok){const j=await r.json();LMAP={};for(const k in j)LMAP[slug(k)]=j[k];lg('OK','logos/lista.json carregada',Object.keys(j).length+' nomes')}else lg('AVISO','logos/lista.json não encontrada (opcional)','HTTP '+r.status)}catch(e){lg('AVISO','logos/lista.json inválida',e.message)}
   render();
 }
+if(location.hash==='#log')tab='log';
 render();
-init();
+init().then(()=>{if(tab==='log'&&!TESTS.length)rodarTestes()});
+addEventListener('hashchange',()=>{if(location.hash==='#log')abrirLog()});
 document.addEventListener('visibilitychange',()=>{if(!document.hidden&&!ADMIN&&!editing)init()});
 (function(){
   const box=$('#inst'),txt=$('#inst-t'),go=$('#inst-go'),no=$('#inst-no');
@@ -329,10 +442,10 @@ document.addEventListener('visibilitychange',()=>{if(!document.hidden&&!ADMIN&&!
   const ua=navigator.userAgent,ios=/iphone|ipad|ipod/i.test(ua)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1),and=/android/i.test(ua);
   let dp=null;
   if(ios||and)box.hidden=false;
-  addEventListener('beforeinstallprompt',e=>{e.preventDefault();dp=e;box.hidden=false});
-  addEventListener('appinstalled',()=>{box.hidden=true});
+  addEventListener('beforeinstallprompt',e=>{e.preventDefault();dp=e;box.hidden=false;lg('INFO','Instalação disponível neste aparelho')});
+  addEventListener('appinstalled',()=>{box.hidden=true;lg('OK','App instalado')});
   go.onclick=async()=>{
-    if(dp){dp.prompt();try{await dp.userChoice}catch(e){}dp=null;box.hidden=true;return}
+    if(dp){dp.prompt();try{const c=await dp.userChoice;lg('INFO','Escolha na janela de instalação',c.outcome)}catch(e){}dp=null;box.hidden=true;return}
     txt.textContent=ios?'Toque em Compartilhar (quadrado com seta) no Safari e depois em “Adicionar à Tela de Início”.':'Toque no menu ⋮ do navegador e depois em “Instalar app” ou “Adicionar à tela inicial”.';
   };
   no.onclick=()=>{box.hidden=true;try{localStorage.setItem('inst-off',String(Date.now()))}catch(e){}};
