@@ -8,8 +8,15 @@
    "hs": 1,
    "id": "lfxctnc",
    "local": "AFC",
-   "scorers": [],
-   "time": ""
+   "scorers": [
+    {
+     "name": "Bico Fino",
+     "team": "Americano FC",
+     "goals": 1
+    }
+   ],
+   "time": "",
+   "canc": false
   },
   {
    "as": 2,
@@ -65,8 +72,20 @@
    "hs": 2,
    "id": "b4kfel3",
    "local": "AFC",
-   "scorers": [],
-   "time": ""
+   "scorers": [
+    {
+     "name": "Josafa",
+     "team": "Americano FC",
+     "goals": 1
+    },
+    {
+     "name": "Cowboy",
+     "team": "Americano FC",
+     "goals": 1
+    }
+   ],
+   "time": "",
+   "canc": false
   },
   {
    "as": 3,
@@ -76,8 +95,15 @@
    "hs": 1,
    "id": "guxntcc",
    "local": "AFC",
-   "scorers": [],
-   "time": ""
+   "scorers": [
+    {
+     "name": "Clovis",
+     "team": "Americano FC",
+     "goals": 1
+    }
+   ],
+   "time": "",
+   "canc": false
   },
   {
    "as": 1,
@@ -151,8 +177,20 @@
    "hs": 2,
    "id": "by1u5lz",
    "local": "AFC",
-   "scorers": [],
-   "time": ""
+   "scorers": [
+    {
+     "name": "Bico Fino",
+     "team": "Americano FC",
+     "goals": 1
+    },
+    {
+     "name": "Elvis",
+     "team": "Americano FC",
+     "goals": 1
+    }
+   ],
+   "time": "",
+   "canc": false
   },
   {
    "as": 1,
@@ -162,8 +200,15 @@
    "hs": 1,
    "id": "vuq48rx",
    "local": "AFC",
-   "scorers": [],
-   "time": ""
+   "scorers": [
+    {
+     "name": "Giovani",
+     "team": "Americano FC",
+     "goals": 1
+    }
+   ],
+   "time": "",
+   "canc": false
   },
   {
    "as": 3,
@@ -173,8 +218,15 @@
    "hs": 1,
    "id": "czx93kn",
    "local": "AFC",
-   "scorers": [],
-   "time": ""
+   "scorers": [
+    {
+     "name": "Giovani",
+     "team": "Americano FC",
+     "goals": 1
+    }
+   ],
+   "time": "",
+   "canc": false
   },
   {
    "as": 0,
@@ -195,8 +247,25 @@
    "hs": 3,
    "id": "eio5cqt",
    "local": "AFC",
-   "scorers": [],
-   "time": ""
+   "scorers": [
+    {
+     "name": "Josafa",
+     "team": "Americano FC",
+     "goals": 1
+    },
+    {
+     "name": "Elvis",
+     "team": "Americano FC",
+     "goals": 1
+    },
+    {
+     "name": "Pernambuco",
+     "team": "Americano FC",
+     "goals": 1
+    }
+   ],
+   "time": "",
+   "canc": false
   },
   {
    "as": 1,
@@ -326,8 +395,20 @@
    "hs": 2,
    "id": "hfmbafd",
    "local": "AFC",
-   "scorers": [],
-   "time": ""
+   "scorers": [
+    {
+     "name": "Rafael",
+     "team": "Americano FC",
+     "goals": 1
+    },
+    {
+     "name": "Bico Fino",
+     "team": "Americano FC",
+     "goals": 1
+    }
+   ],
+   "time": "",
+   "canc": false
   },
   {
    "as": 2,
@@ -348,8 +429,40 @@
    "hs": 7,
    "id": "ne49qrd",
    "local": "AFC",
-   "scorers": [],
-   "time": ""
+   "scorers": [
+    {
+     "name": "Bico Fino",
+     "team": "Americano FC",
+     "goals": 2
+    },
+    {
+     "name": "Zé Braga",
+     "team": "Americano FC",
+     "goals": 1
+    },
+    {
+     "name": "Elvis",
+     "team": "Americano FC",
+     "goals": 1
+    },
+    {
+     "name": "Bolt",
+     "team": "Americano FC",
+     "goals": 1
+    },
+    {
+     "name": "Rafael",
+     "team": "Americano FC",
+     "goals": 1
+    },
+    {
+     "name": "Robinho",
+     "team": "Americano FC",
+     "goals": 1
+    }
+   ],
+   "time": "",
+   "canc": false
   },
   {
    "as": 1,
@@ -359,8 +472,25 @@
    "hs": 6,
    "id": "dmj3fa8",
    "local": "AFC",
-   "scorers": [],
-   "time": ""
+   "scorers": [
+    {
+     "name": "Bico Fino",
+     "team": "Americano FC",
+     "goals": 4
+    },
+    {
+     "name": "Zé Braga",
+     "team": "Americano FC",
+     "goals": 1
+    },
+    {
+     "name": "Pernambuco",
+     "team": "Americano FC",
+     "goals": 1
+    }
+   ],
+   "time": "",
+   "canc": false
   },
   {
    "as": 3,
@@ -370,8 +500,15 @@
    "hs": 1,
    "id": "tftat95",
    "local": "AFC",
-   "scorers": [],
-   "time": ""
+   "scorers": [
+    {
+     "name": "Pernambuco",
+     "team": "Americano FC",
+     "goals": 1
+    }
+   ],
+   "time": "",
+   "canc": false
   },
   {
    "as": 0,
@@ -471,8 +608,15 @@
    "hs": 1,
    "id": "nhihhw6",
    "local": "AFC",
-   "scorers": [],
-   "time": ""
+   "scorers": [
+    {
+     "name": "Bolt",
+     "team": "Americano FC",
+     "goals": 1
+    }
+   ],
+   "time": "",
+   "canc": false
   },
   {
    "as": null,
@@ -522,8 +666,20 @@
    "hs": 3,
    "id": "8oo80ge",
    "local": "RIB.BONITO",
-   "scorers": [],
-   "time": ""
+   "scorers": [
+    {
+     "name": "Bolt",
+     "team": "Americano FC",
+     "goals": 1
+    },
+    {
+     "name": "Rafael",
+     "team": "Americano FC",
+     "goals": 2
+    }
+   ],
+   "time": "",
+   "canc": false
   },
   {
    "as": 1,
@@ -533,8 +689,25 @@
    "hs": 3,
    "id": "f63f39x",
    "local": "ARARAQUARA",
-   "scorers": [],
-   "time": ""
+   "scorers": [
+    {
+     "name": "Bolt",
+     "team": "Americano FC",
+     "goals": 1
+    },
+    {
+     "name": "Robson Mendes",
+     "team": "Americano FC",
+     "goals": 1
+    },
+    {
+     "name": "Josafa",
+     "team": "Americano FC",
+     "goals": 1
+    }
+   ],
+   "time": "",
+   "canc": false
   },
   {
    "as": 2,
@@ -577,8 +750,15 @@
    "hs": 1,
    "id": "7p53hjk",
    "local": "AFC",
-   "scorers": [],
-   "time": ""
+   "scorers": [
+    {
+     "name": "Rafael",
+     "team": "Americano FC",
+     "goals": 1
+    }
+   ],
+   "time": "",
+   "canc": false
   },
   {
    "as": 0,
@@ -606,8 +786,20 @@
    "hs": 2,
    "id": "qv6p7st",
    "local": "MUNICIPAL",
-   "scorers": [],
-   "time": ""
+   "scorers": [
+    {
+     "name": "Zé Braga",
+     "team": "Americano FC",
+     "goals": 1
+    },
+    {
+     "name": "Bolt",
+     "team": "Americano FC",
+     "goals": 1
+    }
+   ],
+   "time": "",
+   "canc": false
   },
   {
    "as": 3,
@@ -617,8 +809,25 @@
    "hs": 4,
    "id": "sapga2g",
    "local": "AFC",
-   "scorers": [],
-   "time": ""
+   "scorers": [
+    {
+     "name": "Bolt",
+     "team": "Americano FC",
+     "goals": 1
+    },
+    {
+     "name": "Rafael",
+     "team": "Americano FC",
+     "goals": 2
+    },
+    {
+     "name": "Ferrugem",
+     "team": "Americano FC",
+     "goals": 1
+    }
+   ],
+   "time": "",
+   "canc": false
   },
   {
    "as": 1,
@@ -628,8 +837,15 @@
    "hs": 2,
    "id": "r0ulst2",
    "local": "AFC",
-   "scorers": [],
-   "time": ""
+   "scorers": [
+    {
+     "name": "Giovani",
+     "team": "Americano FC",
+     "goals": 2
+    }
+   ],
+   "time": "",
+   "canc": false
   },
   {
    "as": 2,
@@ -669,8 +885,20 @@
    "hs": 4,
    "id": "qtr7z57",
    "local": "AFC",
-   "scorers": [],
-   "time": ""
+   "scorers": [
+    {
+     "name": "Bolt",
+     "team": "Americano FC",
+     "goals": 3
+    },
+    {
+     "name": "Elvis",
+     "team": "Americano FC",
+     "goals": 1
+    }
+   ],
+   "time": "",
+   "canc": false
   },
   {
    "as": 0,
@@ -680,8 +908,25 @@
    "hs": 4,
    "id": "ju74eep",
    "local": "ARARAQUARA",
-   "scorers": [],
-   "time": ""
+   "scorers": [
+    {
+     "name": "Bolt",
+     "team": "Americano FC",
+     "goals": 2
+    },
+    {
+     "name": "Elvis",
+     "team": "Americano FC",
+     "goals": 1
+    },
+    {
+     "name": "Cowboy",
+     "team": "Americano FC",
+     "goals": 1
+    }
+   ],
+   "time": "",
+   "canc": false
   },
   {
    "as": 1,
