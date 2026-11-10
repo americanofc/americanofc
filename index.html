@@ -209,7 +209,8 @@ function viewResumo(){
   if(selTeam&&!teams.includes(selTeam))selTeam='';
   h+=`<div class="chips"><select id="tsel" aria-label="Filtrar por time"><option value="">Todos os times</option>${teams.map(n=>`<option value="${esc(n)}" ${n===selTeam?'selected':''}>${esc(n)}</option>`).join('')}</select></div>`;
   const cs=clubStats(S.matches.filter(played));
-  h+=`<div class="card"><div class="dt">${tn('Americano FC')} · total geral</div><div class="kp">${[['Jogos',cs.j,''],['✅ Vitórias',cs.v,'kw'],['🟨 Empates',cs.e,'ke'],['❌ Derrotas',cs.d,'kl'],['GP (Gols Pró)',cs.gf,'gf'],['GC (Gols Contra)',cs.gt,'gt'],['Saldo',(cs.gf-cs.gt>0?'+':'')+(cs.gf-cs.gt),'']].map(([l,v,c])=>`<div class="${c}"><b>${v}</b><span>${l}</span></div>`).join('')}</div></div>`;
+  const md=x=>cs.j?(x/cs.j).toFixed(2).replace('.',','):'0,00';
+  h+=`<div class="card"><div class="dt">${tn('Americano FC')} · total geral</div><div class="kp">${[['Jogos',cs.j,''],['✅ Vitórias',cs.v,'kw'],['🟨 Empates',cs.e,'ke'],['❌ Derrotas',cs.d,'kl'],['GP (Gols Pró)',cs.gf,'gf'],['GC (Gols Contra)',cs.gt,'gt'],['Saldo',(cs.gf-cs.gt>0?'+':'')+(cs.gf-cs.gt),'']].map(([l,v,c])=>`<div class="${c}"><b>${v}</b><span>${l}</span></div>`).join('')}</div><div class="kp">${[['Média GP por jogo',md(cs.gf),'gf'],['Média GC por jogo',md(cs.gt),'gt'],['Gols por jogo (total)',md(cs.gf+cs.gt),'']].map(([l,v,c])=>`<div class="${c}"><b>${v}</b><span>${l}</span></div>`).join('')}</div></div>`;
   const g={};
   S.matches.filter(played).filter(m=>!selTeam||m.home===selTeam||m.away===selTeam).forEach(m=>{
     const [y,mo]=(m.date||'').split('-');
