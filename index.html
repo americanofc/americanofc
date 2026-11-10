@@ -62,7 +62,8 @@ td.g{font-weight:700;color:var(--ac);text-align:center;font-size:18px}
 @keyframes instUp{from{transform:translateY(24px);opacity:0}to{transform:none;opacity:1}}
 #inst[hidden]{display:none}
 #inst .ih{display:flex;align-items:center;gap:14px}
-#inst .ic{flex:none;width:44px;height:44px;border-radius:12px;background:#22c55e;display:flex;align-items:center;justify-content:center}
+#inst .ic{flex:none;width:66px;height:46px;display:flex;align-items:center;justify-content:center}
+#inst .ic img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 2px 6px rgba(0,0,0,.45))}
 #inst .it{flex:1;min-width:0}
 #inst .it b{display:block;font-size:16px;color:#f1f5f9}
 #inst .it p{margin:2px 0 0;font-size:14px;line-height:1.35;color:#94a3b8}
@@ -80,7 +81,7 @@ td.g{font-weight:700;color:var(--ac);text-align:center;font-size:18px}
   <button class="tab" data-tab="art">Artilheiros</button>
 </div>
 <div id="app"></div>
-<div id="inst" hidden role="dialog" aria-label="Instalar aplicativo"><div class="ih"><div class="ic" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0f1923" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2.2"/><circle cx="5" cy="6" r="1.8"/><circle cx="19" cy="6" r="1.8"/><circle cx="5" cy="18" r="1.8"/><circle cx="19" cy="18" r="1.8"/><path d="M10.2 10.6 6.4 7.2M13.8 10.6l3.8-3.4M10.2 13.4l-3.8 3.4M13.8 13.4l3.8 3.4"/></svg></div><div class="it"><b>Instale o aplicativo</b><p id="inst-t">Abre em tela cheia, direto do ícone, e carrega mais rápido em campo.</p></div><button class="ix" id="inst-no" aria-label="Fechar"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div><button class="ig" id="inst-go"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg>Instalar aplicativo</button></div>
+<div id="inst" hidden role="dialog" aria-label="Instalar aplicativo"><div class="ih"><div class="ic" aria-hidden="true"><img id="inst-ic" alt=""></div><div class="it"><b>Instale o aplicativo</b><p id="inst-t">Abre em tela cheia, direto do ícone, e carrega mais rápido em campo.</p></div><button class="ix" id="inst-no" aria-label="Fechar"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div><button class="ig" id="inst-go"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg>Instalar aplicativo</button></div>
 <datalist id="players"></datalist>
 </main>
 <script>
@@ -437,6 +438,7 @@ document.addEventListener('visibilitychange',()=>{if(!document.hidden&&!ADMIN&&!
 (function(){
   const box=$('#inst'),txt=$('#inst-t'),go=$('#inst-go'),no=$('#inst-no');
   const DEF=txt.textContent;
+  try{$('#inst-ic').src=LOGO}catch(e){}
   if(matchMedia('(display-mode: standalone)').matches||navigator.standalone)return;
   try{const t=+localStorage.getItem('inst-off');if(t&&Date.now()-t<7*864e5)return}catch(e){}
   const ua=navigator.userAgent,ios=/iphone|ipad|ipod/i.test(ua)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1),and=/android/i.test(ua);
