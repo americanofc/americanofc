@@ -389,7 +389,7 @@ function envInfo(){
   return [['Versão do app',APP_VER],['Endereço',location.href.split('#')[0]],['Modo',sa?'app instalado (tela cheia)':'navegador'],['Administrador',ADMIN?'sim':'não'],
     ['Origem dos dados',DSRC],['Jogos carregados',S.matches.length+' ('+S.matches.filter(played).length+' com resultado)'],
     ['Jogos com post liberado',S.matches.filter(m=>Array.isArray(m.posts)&&m.posts.length).length],['Conexão',navigator.onLine?'online':'offline'],
-    ['Armazenamento local',ls],['Compartilhar arquivos',navigator.canShare?'disponível':'indisponível'],['Avisos (notificações)',('Notification' in window)?({granted:'ativados',denied:'bloqueados',default:'ainda não pediu'}[Notification.permission]||Notification.permission):'indisponível neste navegador'],['Tela',innerWidth+' x '+innerHeight],['Navegador',navigator.userAgent]];
+    ['Armazenamento local',ls],['Compartilhar arquivos',navigator.canShare?'disponível':'indisponível'],['Serviço de avisos (OneSignal)',window.afcPushState?afcPushState():'—'],['Avisos (notificações)',('Notification' in window)?({granted:'ativados',denied:'bloqueados',default:'ainda não pediu'}[Notification.permission]||Notification.permission):'indisponível neste navegador'],['Tela',innerWidth+' x '+innerHeight],['Navegador',navigator.userAgent]];
 }
 async function imgOk(blob){const u=URL.createObjectURL(blob);try{const im=new Image();im.src=u;await im.decode();return im.naturalWidth+'x'+im.naturalHeight}catch(e){return null}finally{URL.revokeObjectURL(u)}}
 async function chk(url){try{return await fetch(url+(url.includes('?')?'&':'?')+'v='+Date.now(),{cache:'no-store'})}catch(e){return null}}
@@ -1258,14 +1258,20 @@ window.AFCV={render:render,schedule:schedule,W:W,H:H,DUR:DUR,getData:function(){
   var APP_ID='548bd236-c2ab-45c1-8084-c8f808c9874c';
   var base=location.pathname.replace(/[^\/]*$/,'');
   window.OneSignalDeferred=window.OneSignalDeferred||[];
+  var pstate='carregando…',pinit=false,perr=null;
+  window.afcPushState=function(){return pstate};
   OneSignalDeferred.push(function(OS){
     return OS.init({
       appId:APP_ID,
       serviceWorkerPath:base.slice(1)+'push/onesignal/OneSignalSDKWorker.js',
       serviceWorkerParam:{scope:base+'push/onesignal/'},
       notifyButton:{enable:false}
-    }).then(function(){try{lg('OK','Serviço de avisos iniciado')}catch(e){}},function(e){try{lg('ERRO','Serviço de avisos não iniciou',(e&&e.message)||e)}catch(x){}});
+    }).then(function(){pinit=true;pstate='pronto';try{lg('OK','Serviço de avisos iniciado')}catch(e){}},
+            function(e){perr=(e&&e.message)||String(e);pstate='erro ao iniciar: '+perr;try{lg('ERRO','Serviço de avisos não iniciou',perr)}catch(x){}});
   });
+  setTimeout(function(){
+    if(!pinit&&!perr&&typeof window.OneSignal==='undefined'){pstate='o script do OneSignal não carregou (bloqueador de anúncios, rede ou navegador?)';try{lg('ERRO',pstate)}catch(e){}}
+  },7000);
 
   var ua=navigator.userAgent;
   var ios=/iphone|ipad|ipod/i.test(ua)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
@@ -1305,19 +1311,31 @@ window.AFCV={render:render,schedule:schedule,W:W,H:H,DUR:DUR,getData:function(){
     if(!supported()){toast('Este navegador não permite avisos. Use o Google Chrome.');log('AVISO','Avisos não suportados neste navegador');return}
     if(p==='granted'){toast('Os avisos já estão ativados neste aparelho. ✅');setOff();removeCard();return}
     if(p==='denied'){toast('Os avisos estão bloqueados. Libere nas configurações do site (cadeado ao lado do endereço) e tente de novo.');log('AVISO','Avisos bloqueados pelo usuário');return}
-    var answered=false;
-    var tm=setTimeout(function(){if(!answered){toast('Não foi possível carregar o serviço de avisos agora. Verifique a internet e tente de novo.');log('ERRO','Serviço de avisos não respondeu')}},8000);
-    OneSignalDeferred.push(function(OS){
-      return OS.Notifications.requestPermission().then(function(){
-        answered=true;clearTimeout(tm);
-        if(Notification.permission==='granted'){
-          try{OS.User.PushSubscription.optIn()}catch(e){}
-          setOff();removeCard();toast('Avisos ativados! Você vai receber as novidades do AFC. ✅');log('OK','Avisos ativados');
-        }else{
-          toast('Tudo bem! Você pode ativar quando quiser pelo botão 🔔 no fim da página.');log('INFO','Permissão de avisos não concedida');
-        }
-      },function(e){answered=true;clearTimeout(tm);toast('Não foi possível ativar os avisos agora.');log('ERRO','Falha ao pedir permissão de avisos',(e&&e.message)||e)});
-    });
+    var waited=0;
+    (function tick(){
+      if(pinit){ask();return}
+      if(perr){toast('Não foi possível iniciar os avisos: '+perr);log('ERRO','Avisos: falha ao iniciar',perr);return}
+      if(waited>=12000){
+        var nl=pstate.indexOf('não carregou')>=0||typeof window.OneSignal==='undefined';
+        toast(nl?'O serviço de avisos não carregou. Desative o bloqueador de anúncios para este site, saia da aba anônima ou tente em outro navegador.':'O serviço de avisos demorou para responder. Tente de novo em instantes.');
+        log('ERRO','Avisos: serviço não respondeu',pstate);return;
+      }
+      waited+=300;setTimeout(tick,300);
+    })();
+    function ask(){
+      OneSignalDeferred.push(function(OS){
+        return OS.Notifications.requestPermission().then(function(){
+          if(Notification.permission==='granted'){
+            try{OS.User.PushSubscription.optIn()}catch(e){}
+            setOff();removeCard();toast('Avisos ativados! Você vai receber as novidades do AFC. ✅');log('OK','Avisos ativados');
+          }else if(Notification.permission==='denied'){
+            toast('Os avisos foram bloqueados. Para ativar, libere as notificações nas configurações do site (cadeado ao lado do endereço).');log('INFO','Permissão de avisos negada');
+          }else{
+            toast('Tudo bem! Você pode ativar quando quiser pelo botão 🔔 no fim da página.');log('INFO','Permissão de avisos não concedida');
+          }
+        },function(e){toast('Não foi possível ativar os avisos agora.');log('ERRO','Falha ao pedir permissão de avisos',(e&&e.message)||e)});
+      });
+    }
   };
 
   window.afcPushCard=function(){
