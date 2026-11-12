@@ -259,7 +259,7 @@
      "goals": 1
     },
     {
-     "name": "Pernambuco",
+     "name": "Bico Fino",
      "team": "Americano FC",
      "goals": 1
     }
@@ -325,7 +325,7 @@
     {
      "name": "Pernambuco",
      "team": "Americano FC",
-     "goals": 2
+     "goals": 1
     },
     {
      "name": "Giovani",
@@ -339,6 +339,11 @@
     },
     {
      "name": "Ronilson",
+     "team": "Americano FC",
+     "goals": 1
+    },
+    {
+     "name": "Bico Fino",
      "team": "Americano FC",
      "goals": 1
     }
