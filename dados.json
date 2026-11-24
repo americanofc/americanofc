@@ -956,12 +956,17 @@
    "away": "INTERNACIONAL",
    "date": "2026-11-14",
    "home": "Americano FC",
-   "hs": 1,
+   "hs": 2,
    "id": "or93fps",
    "local": "STA LUCIA",
    "scorers": [
     {
-     "name": "Giovani",
+     "name": "Lamarque",
+     "team": "Americano FC",
+     "goals": 1
+    },
+    {
+     "name": "Bolt",
      "team": "Americano FC",
      "goals": 1
     }
@@ -973,15 +978,25 @@
    "canc": false
   },
   {
-   "as": null,
+   "as": 1,
    "away": "JUVENTUDE",
    "date": "2026-11-21",
    "home": "Americano FC",
-   "hs": null,
+   "hs": 1,
    "id": "mhlzatp",
    "local": "AFC",
-   "scorers": [],
-   "time": ""
+   "scorers": [
+    {
+     "name": "Giovani",
+     "team": "Americano FC",
+     "goals": 1
+    }
+   ],
+   "time": "",
+   "canc": false,
+   "posts": [
+    "jogo_21_nov.png"
+   ]
   },
   {
    "as": null,
