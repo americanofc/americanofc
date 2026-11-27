@@ -973,18 +973,25 @@
    "canc": false
   },
   {
-   "as": null,
+   "as": 1,
    "away": "JUVENTUDE",
    "date": "2026-11-21",
    "home": "Americano FC",
-   "hs": null,
+   "hs": 1,
    "id": "mhlzatp",
    "local": "AFC",
-   "scorers": [],
+   "scorers": [
+    {
+     "name": "Giovani",
+     "team": "Americano FC",
+     "goals": 1
+    }
+   ],
    "time": "",
    "posts": [
     "jogo_21_nov.png"
-   ]
+   ],
+   "canc": false
   },
   {
    "as": null,
